@@ -28,13 +28,12 @@ describe('The db operations', () => {
 			expect(mockModel.save).toHaveBeenCalled();
 		});
 	});
-	xdescribe('The insert actors function',() => {
+	describe('The insert actors function',() => {
 		it('Should add actors fetched from the api into the db', async() => {
-			const mockModel = {
-				save : jest.fn()
-			};
-			await insertActors();
-			mockModel.save.mockReset();
+			const mockDb = jest.spyOn(db.Movies, 'update');
+			mockDb.mockResolvedValue(true);
+			await dbOps.insertActors(jsonActors);
+			expect(mockDb).toHaveBeenCalled();
 		});
 	});
 });
