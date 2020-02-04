@@ -2,7 +2,7 @@
   "development": {
     "username": "Medhini_Oak",
     "password": null,
-    "database": "router",
+    "database": "movies",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "operatorsAliases": false
