@@ -1,6 +1,11 @@
-//const db = require('../../models/index');
+const db = require('../../models/index');
 
-const get = async() => {    
+const insertMovies = async(moviesJson) => {
+	const moviesArray = moviesJson.movies;
+	moviesArray.forEach(element => {
+		const jsonAdd = {moviesid:element.id,moviesname:element.name};
+		db.Movies.create(jsonAdd);
+	});    
 };
 
-module.exports = {get};
+module.exports = {insertMovies};

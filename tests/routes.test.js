@@ -21,7 +21,7 @@ describe('The server ', () => {
 		};
 		// const mockDb = jest.spyOn();
 		// mockDb.mockResolvedValue();
-		const response = await server.inject(injectOptions);
+		// const response = await server.inject(injectOptions);
 		// expect(response.statusCode).toEqual();
 		done();
 	});
