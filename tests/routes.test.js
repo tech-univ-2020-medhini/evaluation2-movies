@@ -25,7 +25,7 @@ describe('The server ', () => {
 			'Seth Rogen',
 		]
 	};
-	it('Should return 200 when the db fetches data', async (done) =>{
+	it('Should return 200 when the database is filled', async (done) =>{
 		const injectOptions = {
 			method: 'GET',
 			url: '/fillDatabase',
@@ -57,6 +57,80 @@ describe('The server ', () => {
 
 		const response = await server.inject(injectOptions);
 		expect(response.statusCode).toEqual(500);
+		done();
+	});
+	it('Should return 200 when the db fetches data', async (done) =>{
+		const injectOptions = {
+			method: 'GET',
+			url: '/12345',
+		};
+		const mockMovies= jest.spyOn(dbOperation, 'getMovie');
+		mockMovies.mockResolvedValue({
+			'movieid':'321',
+			'moviename': 'Movie 1'
+		});
+
+		const response = await server.inject(injectOptions);
+		expect(response.statusCode).toEqual(200);
+		done();
+	});
+	it('Should return 500 when the db fails to fetch data', async (done) =>{
+		const injectOptions = {
+			method: 'GET',
+			url: '/12345',
+		};
+		const mockMovies= jest.spyOn(dbOperation, 'getMovie');
+		mockMovies.mockRejectedValue(new Error('db failed'));
+
+		const response = await server.inject(injectOptions);
+		expect(response.statusCode).toEqual(500);
+		done();
+	});
+	it('Should return 200 when the db adds a new movie', async (done) =>{
+		const injectOptions = {
+			method: 'PUT',
+			url: '/movies',
+			payload : {
+				'movieid':'321',
+				'moviename': 'Movie 1'
+			}
+		};
+		const mockMovies= jest.spyOn(dbOperation, 'putMovie');
+		mockMovies.mockResolvedValue(true);
+
+		const response = await server.inject(injectOptions);
+		expect(response.statusCode).toEqual(200);
+		done();
+	});
+	it('Should return 500 when the db to add a new movie', async (done) =>{
+		const injectOptions = {
+			method: 'PUT',
+			url: '/movies',
+			payload : {
+				'movieid':'321',
+				'moviename': 'Movie 1'
+			}
+		};
+		const mockMovies= jest.spyOn(dbOperation, 'putMovie');
+		mockMovies.mockRejectedValue(new Error('db fail'));
+
+		const response = await server.inject(injectOptions);
+		expect(response.statusCode).toEqual(500);
+		done();
+	});
+	it('Should return 400 when a wrong payload is given', async (done) =>{
+		const injectOptions = {
+			method: 'PUT',
+			url: '/movies',
+			payload : {
+				'moviename': 'Movie 1'
+			}
+		};
+		const mockMovies= jest.spyOn(dbOperation, 'putMovie');
+		mockMovies.mockRejectedValue(true);
+
+		const response = await server.inject(injectOptions);
+		expect(response.statusCode).toEqual(400);
 		done();
 	});
 });
