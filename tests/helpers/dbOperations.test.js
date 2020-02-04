@@ -13,7 +13,7 @@ describe('The db operations', () => {
 			mockDb.mockResolvedValue(true);
 			//dbOps.insertGenres = jest.fn();
 			await dbOps.insertMovies(jsonMovies,jsonGenres);
-			expect(mockDb).toHaveBeenCalledWith({'moviesid':'6638453965','moviesname':'The Shawshank Redemption'});
+			expect(mockDb).toHaveBeenCalledWith({'moviesid':'6638453965','moviesname':'The Shawshank Redemption', 'genre':[],'actors':[]});
 			//expect(dbOps.insertGenres).toHaveBeenCalled();
 			mockDb.mockRestore();
 			//dbOps.insertGenres.mockReset();
@@ -34,6 +34,27 @@ describe('The db operations', () => {
 			mockDb.mockResolvedValue(true);
 			await dbOps.insertActors(jsonActors);
 			expect(mockDb).toHaveBeenCalled();
+		});
+	});
+	describe('The get movie function',() => {
+		it('Should return the details of the movie by id', async() => {
+			const resolvedValue = {
+				'name': 'Seven',
+				'genres': [
+					'Mystery',
+					'Thriller',
+					'Crime'
+				],
+				'actors': [
+					'Brad Pitt',
+					'Morgan Freeman'
+				]
+			};
+			const mockDb = jest.spyOn(db.Movies, 'findOne');
+			mockDb.mockResolvedValue(resolvedValue);
+			const result = await dbOps.getMovie('9989888');
+			expect(mockDb).toHaveBeenCalled();
+			expect(result).toEqual(resolvedValue);
 		});
 	});
 });

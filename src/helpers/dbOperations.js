@@ -3,7 +3,7 @@ const db = require('../../models/index');
 const insertMovies = async(moviesJson, genresJson) => {
 	const moviesArray = moviesJson.movies;
 	moviesArray.forEach(async(element) => {
-		const jsonAdd = {moviesid:element.id,moviesname:element.name};
+		const jsonAdd = {moviesid:element.id,moviesname:element.name, genre: [], actors: []};
 		const model = await db.Movies.create(jsonAdd);
 		await insertGenres(genresJson, model, element.genres);
 	});  
@@ -31,4 +31,13 @@ const insertActors = async(actorsJson) => {
 		
 	});
 };
-module.exports = {insertMovies, insertGenres, insertActors};
+const getMovie = async(id) => {
+	const response = await db.Movies.findOne({
+		raw:true,
+		where: {
+			movieid: id,
+		}
+	});
+	return response;
+};
+module.exports = {insertMovies, insertGenres, insertActors, getMovie};
