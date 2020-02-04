@@ -1,4 +1,4 @@
-const postMovie = require('../../src/handlers/postMovie');
+const putMovie = require('../../src/handlers/putMovie');
 const dbOperation = require('../../src/helpers/dbOperations');
 
 describe('The post deatails handler', () => {
@@ -26,9 +26,9 @@ describe('The post deatails handler', () => {
 			}),
 		};
 		
-		const mockDetails= jest.spyOn(dbOperation, 'postMovie');
+		const mockDetails= jest.spyOn(dbOperation, 'putMovie');
 		mockDetails.mockResolvedValue(true);
-		await postMovie(mockReq, mockH);
+		await putMovie(mockReq, mockH);
         
 		expect(mockDetails).toHaveBeenCalledWith(newMovie);
 		expect(mockH.response).toHaveBeenCalledWith('Added movie');
@@ -58,9 +58,9 @@ describe('The post deatails handler', () => {
 			}),
 		};
 		
-		const mockDetails= jest.spyOn(dbOperation, 'postMovie');
+		const mockDetails= jest.spyOn(dbOperation, 'putMovie');
 		mockDetails.mockRejectedValue(new Error('Internal server error'));
-		await postMovie(mockReq, mockH);
+		await putMovie(mockReq, mockH);
         
 		expect(mockDetails).toHaveBeenCalledWith(newMovie);
 		expect(mockH.response).toHaveBeenCalledWith('Internal server error');

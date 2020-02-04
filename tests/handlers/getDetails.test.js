@@ -47,18 +47,7 @@ describe('The get deatails handler', () => {
 				return {code: mockCode};
 			}),
 		};
-		const resolvedValue = {
-			'name': 'Seven',
-			'genres': [
-				'Mystery',
-				'Thriller',
-				'Crime'
-			],
-			'actors': [
-				'Brad Pitt',
-				'Morgan Freeman'
-			]
-		};
+		
 		const mockDetails= jest.spyOn(dbOperation, 'getMovie');
 		mockDetails.mockRejectedValue(new Error('Internal server error'));
 		await getDetails(mockReq, mockH);
@@ -79,18 +68,6 @@ describe('The get deatails handler', () => {
 			response: jest.fn(()=>{
 				return {code: mockCode};
 			}),
-		};
-		const resolvedValue = {
-			'name': 'Seven',
-			'genres': [
-				'Mystery',
-				'Thriller',
-				'Crime'
-			],
-			'actors': [
-				'Brad Pitt',
-				'Morgan Freeman'
-			]
 		};
 		const mockDetails= jest.spyOn(dbOperation, 'getMovie');
 		mockDetails.mockResolvedValue(null);

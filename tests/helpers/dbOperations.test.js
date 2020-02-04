@@ -72,7 +72,7 @@ describe('The db operations', () => {
 			};
 			const mockDb = jest.spyOn(db.Movies, 'create');
 			mockDb.mockResolvedValue(true);
-			await dbOps.postMovie(newMovie);
+			await dbOps.putMovie(newMovie);
 			expect(mockDb).toHaveBeenCalledWith(newMovie);
 		});
 	});

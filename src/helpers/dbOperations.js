@@ -41,7 +41,7 @@ const getMovie = async(id) => {
 	return response;
 };
 
-const postMovie = async(jsonMovie) => {
+const putMovie = async(jsonMovie) => {
 	await db.Movies.create(jsonMovie);
 };
-module.exports = {insertMovies, insertGenres, insertActors, getMovie, postMovie};
+module.exports = {insertMovies, insertGenres, insertActors, getMovie, putMovie};

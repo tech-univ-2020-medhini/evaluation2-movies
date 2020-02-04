@@ -5,10 +5,10 @@ const getSchema = Joi.object({
 });
 
 const putSchema = Joi.object({
-	//movieid: Joi.string().required(),
-	//moviename: Joi.string(),
-	//genre: Joi.array(),
-	//actors: Joi.array(),
+	movieid: Joi.string().required(),
+	moviename: Joi.string(),
+	genre: Joi.array(),
+	actors: Joi.array(),
 });
 
 
