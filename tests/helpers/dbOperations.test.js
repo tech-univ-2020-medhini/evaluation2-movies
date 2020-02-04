@@ -8,7 +8,6 @@ describe('The db operations', () => {
 	const jsonActors = {'actors':[{'name':'Brad Pitt','movies':['7533474498','1393797017','6621531523']}]};
 	describe('The insert movies function',() => {
 		it('Should add movieid and moviename fetched from the api into the db', async() => {
-			//const jsonGenres = {'genres':[{'name':'Crime','id':1},{'name':'Mystery','id':2},{'name':'Thriller','id':3},{'name':'Romance','id':4},{'name':'Drama','id':5},{'name':'Sci-fi','id':6}]};
 			const mockDb = jest.spyOn(db.Movies, 'create');
 			mockDb.mockResolvedValue(true);
 			//dbOps.insertGenres = jest.fn();
@@ -39,7 +38,7 @@ describe('The db operations', () => {
 		it('Should return the details of the movie by id', async() => {
 			const resolvedValue = {
 				'name': 'Seven',
-				'genres': [
+				'genres':  [
 					'Mystery',
 					'Thriller',
 					'Crime'
@@ -55,6 +54,19 @@ describe('The db operations', () => {
 			expect(mockDb).toHaveBeenCalled();
 			expect(result).toEqual(resolvedValue);
 		});
+		it('Should return null if the id doesnt exist', async() => {
+			const mockDb = jest.spyOn(db.Movies, 'findOne');
+			mockDb.mockResolvedValue(null);
+			const result = await dbOps.getMovie('9989888');
+			expect(mockDb).toHaveBeenCalledWith({
+				raw:true,
+				where: {
+					movieid: '9989888',
+				}
+			});
+			expect(result).toEqual(null);
+		});
+		
 	});
 	describe('The post movie funcion', () => {
 		it('Should write the movie onto the database', async() => {

@@ -16,7 +16,6 @@ const insertGenres = async(genresJson, genreArray, id) => {
 		genresApiArray.forEach(async(genreObj) => {
 			if(genreObj.id === element)
 				db.Movies.update({'genre': db.sequelize.fn('array_append', db.sequelize.col('genre'), genreObj.name)},{ where: { movieid :  id} });
-
 		});
 	});
     

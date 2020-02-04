@@ -1,11 +1,11 @@
-const updateMovies = require('../../src/handlers/updateMovies');
+const updateMovies = require('../../src/handlers/fillDatabase');
 const dbOperation = require('../../src/helpers/dbOperations');
 const axios = require('axios').default;
 
 describe('The update movies handler', () => {
-	//const jsonMovies = {'movies':[{'id':'6638453965','name':'The Shawshank Redemption','genres':[2,4]}]};
-	//const jsonGenres = {'genres':[{'name':'Crime','id':1},{'name':'Mystery','id':2},{'name':'Thriller','id':3},{'name':'Romance','id':4},{'name':'Drama','id':5},{'name':'Sci-fi','id':6}]};
-	//const jsonActors = {'actors':[{'name':'Brad Pitt','movies':['7533474498','1393797017','6621531523']}]};
+	const jsonMovies = {'movies':[{'id':'6638453965','name':'The Shawshank Redemption','genres':[2,4]}]};
+	const jsonGenres = {'genres':[{'name':'Crime','id':1},{'name':'Mystery','id':2},{'name':'Thriller','id':3},{'name':'Romance','id':4},{'name':'Drama','id':5},{'name':'Sci-fi','id':6}]};
+	const jsonActors = {'actors':[{'name':'Brad Pitt','movies':['7533474498','1393797017','6621531523']}]};
 	it ('Should return 200 if the api is read correctly and added into the db', async() => {
 		const mockReq = {
 			params: {
@@ -24,7 +24,9 @@ describe('The update movies handler', () => {
 		const mockActors = jest.spyOn(dbOperation, 'insertActors');
 		mockActors.mockResolvedValue(true);
 		const mockAxios = jest.spyOn(axios, 'get');
-		mockAxios.mockResolvedValue(true);
+		mockAxios.mockResolvedValue(jsonMovies);
+		mockAxios.mockResolvedValue(jsonActors);
+		mockAxios.mockResolvedValue(jsonGenres);
 
 		await updateMovies(mockReq,mockH);
 		
@@ -62,7 +64,7 @@ describe('The update movies handler', () => {
 		// const mockActors = jest.spyOn(dbOperation, 'insertActors');
 		// mockActors.mockRejectedValue(new Error('db failed'));
 		const mockAxios = jest.spyOn(axios, 'get');
-		mockAxios.mockResolvedValue(true);
+		mockAxios.mockResolvedValue(jsonMovies);
 
 
 		await updateMovies(mockReq,mockH);
@@ -80,4 +82,26 @@ describe('The update movies handler', () => {
 		mockAxios.mockRestore();
 
 	});
+	// it('Should return 204 No data is the external api fails to send data', async() => {
+	// 	const mockReq = {
+	// 		params: {
+	// 		},
+	// 	};
+	// 	const mockCode = jest.fn();
+	// 	const mockH = {
+	// 		response: jest.fn(()=>{
+	// 			return {code: mockCode};
+	// 		}),
+	// 	};
+	// 	const mockAxios = jest.spyOn(axios, 'get');
+	// 	mockAxios.mockResolvedValue({});
+	// 	await  updateMovies(mockReq,mockH);
+
+	// 	expect(mockAxios).toHaveBeenCalledWith('https://stormy-plains-72807.herokuapp.com/movies');
+	// 	expect(mockAxios).toHaveBeenCalledWith('https://stormy-plains-72807.herokuapp.com/genres');
+	// 	expect(mockAxios).toHaveBeenCalledWith('https://stormy-plains-72807.herokuapp.com/actors');
+	// 	expect(mockH.response).toHaveBeenCalledWith('No data');
+	// 	expect(mockCode).toHaveBeenCalledWith(204);
+
+	// });
 });

@@ -12,4 +12,4 @@ const putSchema = Joi.object({
 });
 
 
-module.exports = getSchema, putSchema;
+module.exports = {getSchema, putSchema};

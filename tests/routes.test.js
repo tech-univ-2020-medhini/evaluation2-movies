@@ -15,10 +15,20 @@ describe('The server ', () => {
 		await server.stop();
 	});
 
-	it('Should return 200', async (done) =>{
+	const resolvedData = {
+		'name': 'Pineapple Express',
+		'genres': [
+			'Comedy',
+			'Drama',
+		],
+		'actors': [
+			'Seth Rogen',
+		]
+	};
+	it('Should return 200 when the db fetches data', async (done) =>{
 		const injectOptions = {
 			method: 'GET',
-			url: '/updateMovies',
+			url: '/fillDatabase',
 		};
 		const mockMovies= jest.spyOn(dbOperation, 'insertMovies');
 		mockMovies.mockResolvedValue(true);
@@ -27,7 +37,7 @@ describe('The server ', () => {
 		const mockActors = jest.spyOn(dbOperation, 'insertActors');
 		mockActors.mockResolvedValue(true);
 		const mockAxios = jest.spyOn(axios, 'get');
-		mockAxios.mockResolvedValue(true);
+		mockAxios.mockResolvedValue(resolvedData);
 
 
 		const response = await server.inject(injectOptions);
@@ -37,12 +47,12 @@ describe('The server ', () => {
 	it('Should return 500 when the system fails', async (done) =>{
 		const injectOptions = {
 			method: 'GET',
-			url: '/updateMovies',
+			url: '/fillDatabase',
 		};
 		const mockMovies= jest.spyOn(dbOperation, 'insertMovies');
 		mockMovies.mockRejectedValue(new Error('db failed'));
 		const mockAxios = jest.spyOn(axios, 'get');
-		mockAxios.mockResolvedValue(true);
+		mockAxios.mockResolvedValue(resolvedData);
 
 
 		const response = await server.inject(injectOptions);
