@@ -13,7 +13,7 @@ describe('The db operations', () => {
 			mockDb.mockResolvedValue(true);
 			//dbOps.insertGenres = jest.fn();
 			await dbOps.insertMovies(jsonMovies,jsonGenres);
-			expect(mockDb).toHaveBeenCalledWith({'moviesid':'6638453965','moviesname':'The Shawshank Redemption', 'genre':[],'actors':[]});
+			expect(mockDb).toHaveBeenCalledWith({'movieid':'6638453965','moviename':'The Shawshank Redemption', 'genre':[],'actors':[]});
 			//expect(dbOps.insertGenres).toHaveBeenCalled();
 			mockDb.mockRestore();
 			//dbOps.insertGenres.mockReset();
@@ -21,11 +21,10 @@ describe('The db operations', () => {
 	});
 	describe('The insert genres function',() => {
 		it('Should add genres fetched from the api into the db', async() => {
-			const mockModel = {
-				save : jest.fn()
-			};
-			await dbOps.insertGenres(jsonGenres,mockModel,[2,4]);
-			expect(mockModel.save).toHaveBeenCalled();
+			const mockDb = jest.spyOn(db.Movies, 'update');
+			mockDb.mockResolvedValue(true);
+			await dbOps.insertGenres(jsonGenres,[2,4],'389888');
+			expect(mockDb).toHaveBeenCalled();
 		});
 	});
 	describe('The insert actors function',() => {

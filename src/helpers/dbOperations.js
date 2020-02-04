@@ -3,22 +3,22 @@ const db = require('../../models/index');
 const insertMovies = async(moviesJson, genresJson) => {
 	const moviesArray = moviesJson.movies;
 	moviesArray.forEach(async(element) => {
-		const jsonAdd = {moviesid:element.id,moviesname:element.name, genre: [], actors: []};
-		const model = await db.Movies.create(jsonAdd);
-		await insertGenres(genresJson, model, element.genres);
+		console.log(element.id);
+		const jsonAdd = {movieid:element.id,moviename:element.name, genre: [], actors: []};
+		await db.Movies.create(jsonAdd);
+		await insertGenres(genresJson, element.genres, element.id);
 	});  
 };
 
-const insertGenres = async(genresJson, model, genreArray) => {
+const insertGenres = async(genresJson, genreArray, id) => {
 	const genresApiArray = genresJson.genres;
 	genreArray.forEach(async(element) => {
-		genresApiArray.forEach(async(objArrayElement) => {
-			if (objArrayElement.id === element){
-				model.genre.push(objArrayElement.name);
-			}
+		genresApiArray.forEach(async(genreObj) => {
+			if(genreObj.id === element)
+				db.Movies.update({'genre': db.sequelize.fn('array_append', db.sequelize.col('genre'), genreObj.name)},{ where: { movieid :  id} });
+
 		});
 	});
-	return await model.save();
     
 };
 const insertActors = async(actorsJson) => {

@@ -2,7 +2,7 @@ const updateMovies = require('../../src/handlers/updateMovies');
 const dbOperation = require('../../src/helpers/dbOperations');
 const axios = require('axios').default;
 
-describe('The get handler', () => {
+describe('The update movies handler', () => {
 	//const jsonMovies = {'movies':[{'id':'6638453965','name':'The Shawshank Redemption','genres':[2,4]}]};
 	//const jsonGenres = {'genres':[{'name':'Crime','id':1},{'name':'Mystery','id':2},{'name':'Thriller','id':3},{'name':'Romance','id':4},{'name':'Drama','id':5},{'name':'Sci-fi','id':6}]};
 	//const jsonActors = {'actors':[{'name':'Brad Pitt','movies':['7533474498','1393797017','6621531523']}]};

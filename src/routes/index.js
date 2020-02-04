@@ -1,4 +1,5 @@
-const get = require('./updateMovies');
+const updateMovies = require('./updateMovies');
+const getDetails = require('./getDetails');
 
-const routes = [...get];
+const routes = [...updateMovies,...getDetails];
 module.exports = routes;
