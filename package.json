@@ -19,6 +19,7 @@
   "dependencies": {
     "@hapi/hapi": "^19.0.5",
     "@hapi/joi": "^17.1.0",
+    "axios": "^0.19.2",
     "jest": "^25.1.0",
     "pg": "^7.18.1",
     "pg-hstore": "^2.3.3",

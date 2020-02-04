@@ -5,4 +5,4 @@ const getSchema = Joi.object({
 });
 
 
-module.exports = {getSchema};
+module.exports = getSchema;
