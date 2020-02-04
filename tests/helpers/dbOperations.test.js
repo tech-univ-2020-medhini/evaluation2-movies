@@ -56,4 +56,24 @@ describe('The db operations', () => {
 			expect(result).toEqual(resolvedValue);
 		});
 	});
+	describe('The post movie funcion', () => {
+		it('Should write the movie onto the database', async() => {
+			const newMovie = {
+				'name': 'Seven',
+				'genres': [
+					'Mystery',
+					'Thriller',
+					'Crime'
+				],
+				'actors': [
+					'Brad Pitt',
+					'Morgan Freeman'
+				]
+			};
+			const mockDb = jest.spyOn(db.Movies, 'create');
+			mockDb.mockResolvedValue(true);
+			await dbOps.postMovie(newMovie);
+			expect(mockDb).toHaveBeenCalledWith(newMovie);
+		});
+	});
 });

@@ -40,4 +40,8 @@ const getMovie = async(id) => {
 	});
 	return response;
 };
-module.exports = {insertMovies, insertGenres, insertActors, getMovie};
+
+const postMovie = async(jsonMovie) => {
+	await db.Movies.create(jsonMovie);
+};
+module.exports = {insertMovies, insertGenres, insertActors, getMovie, postMovie};
